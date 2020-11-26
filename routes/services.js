@@ -10,8 +10,17 @@ router.get('/', (req, res, next) => {
 
 //CRIA UM NOVO SERVIÇOS
 router.post('/', (req, res, next) => {
+
+  const servico = {
+    tipo: req.body.tipo,
+    descricao: req.body.descricao,
+    dataPublic: req.body.dataPublic
+  }
+
   res.status(201).send({
-    mensagem: 'Testando POST na rota de Services'
+    serviceCreate: servico,
+    mensagem: 'Serviço criado com sucesso'
+
   })
 })
 

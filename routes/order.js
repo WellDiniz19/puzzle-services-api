@@ -10,8 +10,15 @@ router.get('/', (req, res, next) => {
 
 //CRIA UM NOVO ORÇAMENTO
 router.post('/', (req, res, next) => {
+
+  const orcamento = {
+    idService: req.body.idService,
+    dataPublic: req.body.dataPublic,
+    dataFinal: req.body.dataFinal
+  }
   res.status(201).send({
-    mensagem: 'Testando POST na rota de Order'
+    orderCreate: orcamento,
+    mensagem: 'Orçamento criado com sucesso'
   })
 })
 
