@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const mysql = require('../database/mysql').pool
 
 //RETORNA TODOS OS SERVIÇOS
 router.get('/', (req, res, next) => {
@@ -11,16 +12,33 @@ router.get('/', (req, res, next) => {
 //CRIA UM NOVO SERVIÇOS
 router.post('/', (req, res, next) => {
 
-  const servico = {
+  /*const servico = {
     tipo: req.body.tipo,
     descricao: req.body.descricao,
+    localizacao: req.body.localizacao,
     dataPublic: req.body.dataPublic
-  }
+  }*/ //Teste
 
-  res.status(201).send({
-    serviceCreate: servico,
-    mensagem: 'Serviço criado com sucesso'
+  mysql.getConnection((error, conn) => {
+    conn.query(
+      'INSERT INTO tb_services (tipo, descricao, localizacao, dataPublic) VALUES (?,?,?,?,)',
+      [req.body.tipo, req.body.descricao, req.body.localizacao, req.body.dataPublic],
+      (error, resultado, field) => {
+        conn.release()
 
+        if (error) {
+          res.status(500).send({
+            error: error,
+            response: null
+          })
+        }
+        res.status(201).send({
+          mensagem: 'Serviço criado com sucesso',
+          idService: resultado.insertId
+        })
+
+      }
+    )
   })
 })
 

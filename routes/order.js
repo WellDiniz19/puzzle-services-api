@@ -13,6 +13,7 @@ router.post('/', (req, res, next) => {
 
   const orcamento = {
     idService: req.body.idService,
+    descricao: req.body.descricao,
     dataPublic: req.body.dataPublic,
     dataFinal: req.body.dataFinal
   }
